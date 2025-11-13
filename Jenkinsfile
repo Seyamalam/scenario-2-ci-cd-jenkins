@@ -59,6 +59,7 @@ pipeline {
                 sh '''
                     echo "Stopping any existing containers..."
                     docker-compose down || true
+                    docker rm -f api-avengers-demo || true
                     
                     echo "Starting application with Docker Compose..."
                     docker-compose up -d
