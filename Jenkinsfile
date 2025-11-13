@@ -84,12 +84,12 @@ pipeline {
                     docker ps | grep api-avengers-demo
                     
                     echo "Testing health endpoint..."
-                    docker exec api-avengers-demo curl -f http://localhost:5000/health || exit 1
+                    docker exec api-avengers-demo python -c "import requests; r=requests.get('http://localhost:5000/health'); assert r.status_code==200; print(r.json())"
                     
                     echo "Testing home endpoint..."
-                    docker exec api-avengers-demo curl -f http://localhost:5000/ || exit 1
+                    docker exec api-avengers-demo python -c "import requests; r=requests.get('http://localhost:5000/'); assert r.status_code==200; print(r.json())"
                     
-                    echo "All health checks passed!"
+                    echo "✓ All health checks passed!"
                 '''
             }
         }
