@@ -77,9 +77,19 @@ pipeline {
             steps {
                 echo '=== Stage 6: Verifying application health ==='
                 sh '''
-                    echo "Running health check script..."
-                    chmod +x healthcheck.sh
-                    ./healthcheck.sh
+                    echo "Waiting for application to be ready..."
+                    sleep 15
+                    
+                    echo "Checking container status..."
+                    docker ps | grep api-avengers-demo
+                    
+                    echo "Testing health endpoint..."
+                    docker exec api-avengers-demo curl -f http://localhost:5000/health || exit 1
+                    
+                    echo "Testing home endpoint..."
+                    docker exec api-avengers-demo curl -f http://localhost:5000/ || exit 1
+                    
+                    echo "All health checks passed!"
                 '''
             }
         }
