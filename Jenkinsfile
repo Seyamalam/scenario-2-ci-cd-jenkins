@@ -23,7 +23,7 @@ pipeline {
                 sh '''
                     echo "Installing dependencies..."
                     cd app
-                    pip install -r requirements.txt
+                    pip install --break-system-packages -r requirements.txt
                     echo "Build completed successfully"
                 '''
             }
